@@ -94,7 +94,6 @@ class BlacklistAPITestCase(unittest.TestCase):
         response = self.client.get('/blacklists/blacklisted@example.com',
                                  headers=self.headers)
         
-        self.assertEqual(response.status_code, 500)
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.data)
         self.assertTrue(data['is_blacklisted'])
