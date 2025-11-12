@@ -19,6 +19,7 @@ phases:
       - echo Installing Python dependencies...
       - pip install -r requirements.txt
       - pip install -r requirements-test.txt
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 982590066015.dkr.ecr.us-east-2.amazonaws.com
 
   build:
     commands:
@@ -28,12 +29,13 @@ phases:
       
       - echo Building Docker image...
       - IMAGE_TAG=${CODEBUILD_RESOLVED_SOURCE_VERSION:-latest}
-      - docker build -t blacklist-api:$IMAGE_TAG .
-      - docker tag blacklist-api:$IMAGE_TAG blacklist-api:latest
+      - docker build -t devops_python .
+      - docker tag devops_python:$IMAGE_TAG devops_python:latest
       
       - echo Saving Docker image as artifact...
-      - docker save blacklist-api:latest -o blacklist-api-image.tar
-      - gzip blacklist-api-image.tar
+      - docker save devops_python:latest -o devops_python-image.tar
+      - gzip devops_python-image.tar
+      - docker tag devops_python:latest 982590066015.dkr.ecr.us-east-2.amazonaws.com/devops_python:latest
 
   post_build:
     commands:
@@ -42,17 +44,18 @@ phases:
       - echo "IMAGE_TAG=$IMAGE_TAG" > deployment-info.txt
       - echo "BUILD_TIME=$(date)" >> deployment-info.txt
       - echo "COMMIT_HASH=${CODEBUILD_RESOLVED_SOURCE_VERSION}" >> deployment-info.txt
-      - echo "DOCKER_IMAGE=blacklist-api:$IMAGE_TAG" >> deployment-info.txt
-      - echo "DOCKER_IMAGE_LATEST=blacklist-api:latest" >> deployment-info.txt
+      - echo "DOCKER_IMAGE=devops_python:$IMAGE_TAG" >> deployment-info.txt
+      - echo "DOCKER_IMAGE_LATEST=devops_python:latest" >> deployment-info.txt
+      - docker push 982590066015.dkr.ecr.us-east-2.amazonaws.com/devops_python:latest
 
 artifacts:
   files:
-    - blacklist-api-image.tar.gz
+    - devops_python-image.tar.gz
     - deployment-info.txt
     - docker-compose.yml
     - Dockerfile
     - scripts/**/*
-  name: blacklist-api-build-artifacts
+  name: devops_python-build-artifacts
 
 cache:
   paths:
