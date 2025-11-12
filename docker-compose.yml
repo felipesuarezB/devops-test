@@ -7,7 +7,7 @@ services:
       - FLASK_HOST=0.0.0.0
       - FLASK_PORT=5000
       - FLASK_DEBUG=false
-      - DATABASE_URL=postgresql+psycopg://adminDevops:4dm1nD3v0p$@awseb-e-mx5ssnkmw8-stack-awsebrdsdatabase-c5bgabep0wsg.cnuai2aowwmg.us-east-2.rds.amazonaws.com:5432/blacklist_db
+      - DATABASE_URL=postgresql+psycopg://adminDevops:4dm1nD3v0p$@http://blacklistdb.cnuai2aowwmg.us-east-2.rds.amazonaws.com:5432/blacklist_db
       - SECRET_KEY=production-secret-key-change-me
       - JWT_SECRET_KEY=production-jwt-secret-change-me
       - LOG_LEVEL=INFO
@@ -20,7 +20,7 @@ services:
   test:
     build: .
     environment:
-      - DATABASE_URL=postgresql+psycopg://adminDevops:4dm1nD3v0p$@awseb-e-mx5ssnkmw8-stack-awsebrdsdatabase-c5bgabep0wsg.cnuai2aowwmg.us-east-2.rds.amazonaws.com:5432/blacklist_db
+      - DATABASE_URL=postgresql+psycopg://adminDevops:4dm1nD3v0p$@blacklistdb.cnuai2aowwmg.us-east-2.rds.amazonaws.com:5432/blacklist_db
       - SECRET_KEY=test-secret-key
       - JWT_SECRET_KEY=test-jwt-secret
     # depends_on:
@@ -31,23 +31,50 @@ services:
     profiles:
       - test
 
-  # postgres:
-  #   image: postgres:13
-  #   environment:
-  #     - POSTGRES_DB=blacklist_db
-  #     - POSTGRES_USER=blacklist_user
-  #     - POSTGRES_PASSWORD=blacklist_pass
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-  #     - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
-  #   ports:
-  #     - "5432:5432"
-  #   networks:
-  #     - blacklist-network
-  #   restart: unless-stopped
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=blacklist_db
+      - POSTGRES_USER=blacklist_user
+      - POSTGRES_PASSWORD=blacklist_pass
+    volumes:
+    - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - blacklist-network
+    restart: unless-stopped
+
+  # Oracle Database para pruebas - servicio independiente
+  oracle-test:
+    image: container-registry.oracle.com/database/express:21.3.0-xe
+    container_name: oracle-xe-test
+    environment:
+      - ORACLE_PWD=TestPass123
+      - ORACLE_CHARACTERSET=AL32UTF8
+    ports:
+      - "1521:1521"      # Puerto SQL*Net
+      - "5500:5500"      # Oracle Enterprise Manager Express
+    volumes:
+      - oracle_test_data:/opt/oracle/oradata
+      - ./scripts/init_oracle.sql:/container-entrypoint-initdb.d/init.sql
+    networks:
+      - blacklist-network
+    restart: unless-stopped
+    profiles:
+      - oracle-test
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'SELECT 1 FROM DUAL;' | sqlplus -L system/TestPass123@//localhost:1521/XE || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+    shm_size: 1g
 
 volumes:
   postgres_data:
+  oracle_test_data:
 
 networks:
   blacklist-network:
