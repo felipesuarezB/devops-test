@@ -10,7 +10,7 @@
           }
         ],
 
-        "image": "<IMAGE1_NAME>",
+        "image": "IMAGE1_NAME",
         "essential": true,
         "name": "entrega-3-5000-tcp"
       }
