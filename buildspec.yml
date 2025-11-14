@@ -57,13 +57,15 @@ artifacts:
     - imageDetail.json
     - docker-compose.yml
     - Dockerfile
+    - appspec.json
+    - taskdef.json
     - scripts/**/*
+    - devops_python-image.tar.gz
 
   secondary-artifacts:
     DefinitionArtifact:
       files:
-        - appspec.yaml
-        - taskdef.json
+
   ImageArtifact:
     files:
       - imageDetail.json
