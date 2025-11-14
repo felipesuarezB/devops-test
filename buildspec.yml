@@ -30,7 +30,6 @@ phases:
       - echo Building Docker image...
       - IMAGE_TAG=${CODEBUILD_RESOLVED_SOURCE_VERSION:-latest}
       - docker build -t devops_python .
-      - docker tag devops_python:$IMAGE_TAG devops_python:latest
       
       - echo Saving Docker image as artifact...
       - docker save devops_python:latest -o devops_python-image.tar
