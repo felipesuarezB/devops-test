@@ -62,13 +62,15 @@ artifacts:
     - scripts/**/*
     - devops_python-image.tar.gz
 
-  secondary-artifacts:
-    DefinitionArtifact:
-      files:
-
+secondary-artifacts:
+  DefinitionArtifact:
+    files:
+      - appspec.json
+      - taskdef.json
   ImageArtifact:
     files:
       - imageDetail.json
+      - imagedefinitions.json
 
 cache:
   paths:
