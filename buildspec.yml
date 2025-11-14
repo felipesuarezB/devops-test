@@ -60,7 +60,6 @@ artifacts:
     - docker-compose.yml
     - Dockerfile
     - scripts/**/*
-    - devops_python-image.tar.gz
 
 cache:
   paths:
