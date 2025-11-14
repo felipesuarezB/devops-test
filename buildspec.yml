@@ -46,17 +46,27 @@ phases:
       - echo "DOCKER_IMAGE=devops_python:$IMAGE_TAG" >> deployment-info.txt
       - echo "DOCKER_IMAGE_LATEST=devops_python:latest" >> deployment-info.txt
       - docker push 982590066015.dkr.ecr.us-east-2.amazonaws.com/devops_python:latest
+      - echo Writing Image Definitions file...
+      - printf '[{"name":"Container-app-python","imageUri":"982590066015.dkr.ecr.us-east-2.amazonaws.com/devops_python:latest"}]' > imagedefinitions.json
+      - printf '{"ImageURI":"982590066015.dkr.ecr.us-east-2.amazonaws.com/devops_python:latest"}' > imageDetail.json
+      - cat imagedefinitions.json 
 
 artifacts:
   files:
-    - devops_python-image.tar.gz
-    - deployment-info.txt
+    - imagedefinitions.json
+    - imageDetail.json
     - docker-compose.yml
     - Dockerfile
-    - appspec.json
-    - taskdef.json
     - scripts/**/*
-  name: BuildArtifact
+
+  secondary-artifacts:
+    DefinitionArtifact:
+      files:
+        - appspec.yaml
+        - taskdef.json
+  ImageArtifact:
+    files:
+      - imageDetail.json
 
 cache:
   paths:
