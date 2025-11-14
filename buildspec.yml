@@ -53,8 +53,10 @@ artifacts:
     - deployment-info.txt
     - docker-compose.yml
     - Dockerfile
+    - appspec.json
+    - taskdef.json
     - scripts/**/*
-  name: devops_python-build-artifacts
+  name: BuildArtifact
 
 cache:
   paths:
