@@ -10,7 +10,7 @@
           }
         ],
 
-        "image": "982590066015.dkr.ecr.us-east-2.amazonaws.com/devops_python:latest",
+        "image": "<IMAGE1_NAME>",
         "essential": true,
         "name": "entrega-3-5000-tcp"
       }
