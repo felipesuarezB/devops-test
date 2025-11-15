@@ -55,7 +55,7 @@ def create_app(config_class=Config):
     # Health check endpoint
     @app.route('/health')
     def health_check():
-        return {'status': 'healthy', 'message': 'Blacklist API is running'}, 200
+        return {'status': 'healthy', 'message': 'Blacklist API is running v2'}, 200
     
     # Create database tables (commented out - use init_db.py script instead)
     # with app.app_context():
