@@ -7,7 +7,7 @@ services:
       - FLASK_HOST=0.0.0.0
       - FLASK_PORT=5000
       - FLASK_DEBUG=false
-      - DATABASE_URL=postgresql+psycopg://adminDevops:4dm1nD3v0p$@http://blacklistdb.cnuai2aowwmg.us-east-2.rds.amazonaws.com:5432/blacklist_db
+      - DATABASE_URL=postgresql+psycopg://adminDevops:4dm1nD3v0p$@blacklistdb.cnuai2aowwmg.us-east-2.rds.amazonaws.com:5432/blacklist_db
       - SECRET_KEY=production-secret-key-change-me
       - JWT_SECRET_KEY=production-jwt-secret-change-me
       - LOG_LEVEL=INFO
