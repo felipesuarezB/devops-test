@@ -2,6 +2,9 @@
     "executionRoleArn": "arn:aws:iam::982590066015:role/ecsTaskExecutionRole",
     "containerDefinitions": [
       {
+        "image": "<IMAGE1_NAME>",
+        "essential": true,
+        "name": "entrega-3-5000-tcp",
         "portMappings": [
           {
             "hostPort": 5000,
@@ -9,10 +12,18 @@
             "containerPort": 5000
           }
         ],
-
-        "image": "<IMAGE1_NAME>",
-        "essential": true,
-        "name": "entrega-3-5000-tcp"
+        "environment": [
+          { "name": "FLASK_HOST", "value": "0.0.0.0" },
+          { "name": "FLASK_PORT", "value": "5000" },
+          { "name": "FLASK_DEBUG", "value": "false" },
+          {
+            "name": "DATABASE_URL",
+            "value": "postgresql+psycopg://adminDevops:4dm1nD3v0p$@blacklistdb.cnuai2aowwmg.us-east-2.rds.amazonaws.com:5432/blacklist_db"
+          },
+          { "name": "SECRET_KEY", "value": "bd562c89-8d02-44ec-90ca-6d23e680df7e" },
+          { "name": "JWT_SECRET_KEY", "value": "d2da6a99-8869-4069-bf50-28ed1a906f5f" },
+          { "name": "LOG_LEVEL", "value": "INFO" }
+        ]
       }
     ],
 
