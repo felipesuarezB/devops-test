@@ -33,7 +33,7 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "application:app"]
 
 RUN pip install newrelic
-ENV NEW_RELIC_APP_NAME="Entrega-4"
+ENV NEW_RELIC_APP_NAME="Felipe"
 ENV NEW_RELIC_LOG=stdout
 ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
 ENV NEW_RELIC_LICENSE_KEY=NRAK-WTYUYTD89HRH2CX64EJ86M1LGSV
