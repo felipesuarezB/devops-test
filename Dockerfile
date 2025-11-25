@@ -19,7 +19,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Set New Relic environment variables
-ENV NEW_RELIC_APP_NAME="Felipe"
+ENV NEW_RELIC_APP_NAME="Entrega-4-Blacklist-API"
 ENV NEW_RELIC_LOG=stdout
 ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
 ENV NEW_RELIC_LICENSE_KEY=07d7747aed1c73d8e3518370c3500059FFFFNRAL
