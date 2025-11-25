@@ -18,6 +18,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
+# Set New Relic environment variables
+ENV NEW_RELIC_APP_NAME="Felipe"
+ENV NEW_RELIC_LOG=stdout
+ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
+ENV NEW_RELIC_LICENSE_KEY=NRAK-WTYUYTD89HRH2CX64EJ86M1LGSV
+ENV NEW_RELIC_LOG_LEVEL=info
+
 # Create non-root user
 RUN useradd --create-home --shell /bin/bash app && chown -R app:app /app
 USER app
@@ -29,14 +36,8 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:5000/health || exit 1
 
+# Set entrypoint to use newrelic-admin
+ENTRYPOINT ["newrelic-admin", "run-program"]
+
 # Run the application with gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "application:app"]
-
-RUN pip install newrelic
-ENV NEW_RELIC_APP_NAME="Felipe"
-ENV NEW_RELIC_LOG=stdout
-ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
-ENV NEW_RELIC_LICENSE_KEY=NRAK-WTYUYTD89HRH2CX64EJ86M1LGSV
-ENV NEW_RELIC_LOG_LEVEL=info
-
-ENTRYPOINT [ "newrelic-admin", "run-program" ]
