@@ -1,32 +1,12 @@
 {
 	"info": {
-		"_postman_id": "blacklist-api-collection",
+		"_postman_id": "019efaf7-87d3-47c0-8725-3d99561ff1ff",
 		"name": "Blacklist API",
 		"description": "Collection for testing the Email Blacklist Microservice",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43911642",
+		"_collection_link": "https://helvertwiesner.postman.co/workspace/devops-project~c4806043-bed3-415a-aaec-76a7c89f3a51/collection/43911642-019efaf7-87d3-47c0-8725-3d99561ff1ff?action=share&source=collection_link&creator=43911642"
 	},
-	"auth": {
-		"type": "bearer",
-		"bearer": [
-			{
-				"key": "token",
-				"value": "{{access_token}}",
-				"type": "string"
-			}
-		]
-	},
-	"variable": [
-		{
-			"key": "base_url",
-			"value": "http://localhost:5000",
-			"type": "string"
-		},
-		{
-			"key": "access_token",
-			"value": "",
-			"type": "string"
-		}
-	],
 	"item": [
 		{
 			"name": "Authentication",
@@ -93,7 +73,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"test@example.com\",\n    \"app_uuid\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"blocked_reason\": \"Spam complaints\"\n}"
+							"raw": "{\n    \"email\": \"entrega3-1@example.com\",\n    \"app_uuid\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"blocked_reason\": \"Spam complaints\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/blacklists",
@@ -102,6 +82,33 @@
 							],
 							"path": [
 								"blacklists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Errors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"entrega3-1@example.com\",\n    \"app_uuid\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"blocked_reason\": \"Spam complaints\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/blacklists/abc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"blacklists",
+								"abc"
 							]
 						}
 					},
@@ -139,13 +146,31 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/blacklists/test@example.com",
+							"raw": "{{base_url}}/blacklists/entrega3-1@example.com",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"blacklists",
-								"test@example.com"
+								"entrega3-1@example.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Errors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/blacklists/entrega3-1@example.com",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"blacklists",
+								"entrega3-1@example.com"
 							]
 						}
 					},
@@ -271,6 +296,45 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
 		}
 	]
 }
